@@ -4,8 +4,9 @@ import Title from './styles/Title';
 import ItemStyles from './styles/ItemStyles';
 import PriceTag from './styles/PriceTag';
 import formatMoney from '../lib/formatMoney';
+import DeleteButton from './DeleteItem';
 
-class componentName extends Component {
+class Item extends Component {
   render() {
     const { item } = this.props;
 
@@ -20,13 +21,15 @@ class componentName extends Component {
         <PriceTag>{formatMoney(item.price)}</PriceTag>
         <p>{item.description}</p>
         <div className='buttonList'>
-          <Link href={{ pathname: '/item', query: { id: item.id } }}>
+          <Link href={{ pathname: '/edit', query: { id: item.id } }}>
             <a>Edit</a>
           </Link>
+          <button>Add To Cart</button>
+          <DeleteButton id={item.id}>Delete This Item</DeleteButton>
         </div>
       </ItemStyles>
     );
   }
 }
 
-export default componentName;
+export default Item;
