@@ -1,7 +1,3 @@
-const Items = props => (
-  <div>
-    <p>Items!</p>
-  </div>
-);
+import Home from './index';
 
-export default Items;
+export default Home;
