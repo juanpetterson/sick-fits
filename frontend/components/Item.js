@@ -14,7 +14,7 @@ class Item extends Component {
       <ItemStyles>
         {item.image && <img src={item.image} alt={item.title} />}
         <Title>
-          <Link href={`/item?id${item.id}`}>
+          <Link href={`/item?id=${item.id}`}>
             <a>{item.title}</a>
           </Link>
         </Title>
