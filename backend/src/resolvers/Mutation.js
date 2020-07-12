@@ -8,11 +8,21 @@ const { transport, makeEmail } = require('../mail');
 const Mutations = {
   async createItem(parent, args, context, info) {
     // TODO: Check if they are logged in
+    const { userId } = context.request;
+    if (!userId) {
+      throw new Error('You must be logged in to do that!');
+    }
 
     // We can access the database (db) importing the db file stead use via context.db
     const item = await context.db.mutation.createItem(
       {
         data: {
+          // this is how to create a relationship between the Item and the User
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
           ...args,
         },
       },
