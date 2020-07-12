@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
+const { hasPermission } = require('../utils');
 
 const { transport, makeEmail } = require('../mail');
 
@@ -171,6 +172,31 @@ const Mutations = {
     });
 
     return updatedUser;
+  },
+  async updatePermissions(parent, args, context, info) {
+    const { userId, permissions } = context.request;
+
+    if (!userId) {
+      throw new Error('You must be logged in!');
+    }
+
+    const currentUser = await context.db.query.user({ where: { id: userId } });
+
+    hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
+
+    return context.db.mutation.updateUser(
+      {
+        data: {
+          permissions: {
+            set: permissions,
+          },
+        },
+        where: {
+          id: args.userId,
+        },
+      },
+      info
+    );
   },
 };
 
