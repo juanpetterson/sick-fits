@@ -38,14 +38,14 @@ const Permissions = props => (
                 <th>Name</th>
                 <th>Email</th>
                 {possiblePermissions.map(permission => (
-                  <th>{permission}</th>
+                  <th key={permission}>{permission}</th>
                 ))}
                 <th>👇🏼</th>
               </tr>
             </thead>
             <tbody>
               {data.users.map(user => (
-                <User user={user} />
+                <UserPermissions key={user.id} user={user} />
               ))}
             </tbody>
           </Table>
@@ -55,7 +55,24 @@ const Permissions = props => (
   </Query>
 );
 
-class User extends React.Component {
+class UserPermissions extends React.Component {
+  state = {
+    permissions: this.props.user.permissions,
+  };
+
+  handlePermissionChange = event => {
+    const checkbox = event.target;
+    let updatedPermissions = [...this.state.permissions];
+
+    if (checkbox.checked) {
+      updatedPermissions.push(checkbox.value);
+    } else {
+      updatedPermissions = updatedPermissions.filter(permission => permission !== checkbox.value);
+    }
+
+    this.setState({ permissions: updatedPermissions });
+  };
+
   render() {
     const user = this.props.user;
 
@@ -64,9 +81,14 @@ class User extends React.Component {
         <td style={{ fontSize: '12px' }}>{user.name}</td>
         <td style={{ fontSize: '12px' }}>{user.email}</td>
         {possiblePermissions.map(permission => (
-          <td style={{ textAlign: 'center' }}>
+          <td key={permission} style={{ textAlign: 'center' }}>
             <label htmlFor={`${user.id}-permission-${permission}`}>
-              <input type='checkbox' />
+              <input
+                type='checkbox'
+                value={permission}
+                checked={this.state.permissions.includes(permission)}
+                onChange={this.handlePermissionChange}
+              />
             </label>
           </td>
         ))}
