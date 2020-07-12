@@ -64,7 +64,7 @@ class Signin extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <button type='submit'>Sign in!</button>
+              <button type='submit'>Sign In!</button>
             </fieldset>
           </Form>
         )}
