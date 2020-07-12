@@ -20,6 +20,21 @@ server.express.use((req, res, next) => {
   next();
 });
 
+server.express.use(async (req, res, next) => {
+  if (!req.userId) return next();
+
+  const userReturnData = `{
+    id, 
+    permissions, 
+    email, 
+    name
+  }`;
+
+  const user = await db.query.user({ where: { id: req.userId } }, userReturnData);
+  req.user = user;
+  next();
+});
+
 server.start(
   {
     cors: {
