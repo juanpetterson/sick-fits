@@ -180,7 +180,7 @@ const Mutations = {
       throw new Error('You must be logged in!');
     }
 
-    const currentUser = await context.db.query.user({ where: { id: userId } });
+    const currentUser = await context.db.query.user({ where: { id: userId } }, info);
 
     hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
 
