@@ -19,6 +19,8 @@ class DeleteItem extends Component {
         variables: {
           id: this.props.id,
         },
+      }).catch(err => {
+        alert(err.message);
       });
     }
   };
